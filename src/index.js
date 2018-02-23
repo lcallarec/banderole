@@ -14,6 +14,10 @@ const isEnabled = (feature) => {
     return flag;
   }
 
+  if (typeof flag === 'object' && flag.hasOwnProperty("enabled")) {
+      return flag.enabled;
+  }
+
   return false;
 };
 

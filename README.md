@@ -10,7 +10,10 @@ Feature flags are described in a json configuration file, under a root `feature`
 {
     "features": {
         "switchboard": ...,
-        "clock": ...
+        "clock": ...,
+        "slack-integration": {
+            "enabled": false
+        }
     }
 }
 ```
@@ -25,6 +28,20 @@ Feature flags are described in a json configuration file, under a root `feature`
         "switchboard": true,
         "clock": false
     }
+}
+```
+
+### As an object containing extra rules
+```json
+{
+    "features": {
+        "clock": false,
+        "mailer": {
+            "enabled": true
+        },
+        "slack-integration": {
+            "enabled": false
+        }
 }
 ```
 

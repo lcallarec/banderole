@@ -1,6 +1,12 @@
 {
     "features": {
         "switchboard": true,
-        "clock": false
+        "clock": false,
+        "mailer": {
+            "enabled": true
+        },
+        "slack-integration": {
+            "enabled": false
+        }
     }
 }
