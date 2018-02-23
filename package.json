@@ -1,0 +1,24 @@
+{
+  "name": "banderole",
+  "version": "0.0.1",
+  "description": "Banderole is a versatile Javascript feature-flag/toggle library designed with simplicity in mind",
+  "main": "src/index.js",
+  "repository": "git@github.com:lcallarec/banderole.git",
+  "author": "Laurent Callarec <l.callarec@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.18.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jest": "^21.12.2",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^22.4.2"
+  },
+  "scripts": {
+    "lint": "node ./node_modules/eslint/bin/eslint.js",
+    "jest": "node ./node_modules/jest-cli/bin/jest.js"
+  }
+}
