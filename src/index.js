@@ -1,20 +1,20 @@
 
 let featureFlags = {
-  features: {}
-}
+  features: {},
+};
 
 const boot = (features) => {
-  featureFlags = features
-}
+  featureFlags = features;
+};
 
 const isEnabled = (feature) => {
-  const flag = featureFlags['features'][feature]
+  const flag = featureFlags['features'][feature];
 
   if (typeof flag === 'boolean') {
-    return flag
+    return flag;
   }
 
-  return false
-}
+  return false;
+};
 
-module.exports = { boot, isEnabled }
+module.exports = {boot, isEnabled};

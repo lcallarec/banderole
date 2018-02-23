@@ -1,5 +1,5 @@
 {
-    "extends": "standard",
+    "extends": "google",
     "plugins": [
         "jest"
     ],
@@ -8,5 +8,8 @@
         "node": true,
         "jest": true
 
+    },
+    "parserOptions": {
+        "ecmaVersion": 6
     }
 }
