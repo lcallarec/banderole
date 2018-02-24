@@ -16,6 +16,18 @@
         },
         "dark-theme": {
             "between-hours": ["22", "06"]
+        },
+        "affirmative-strategy-with-one-enable-vote": {
+            "strategy:affirmative": {
+                "authorize": null,
+                "auth": "wiz"
+            }
+        },
+        "affirmative-strategy-with-no-enable-vote": {
+            "strategy:affirmative": [
+                "unauthorize",
+                "unauthorize"
+            ]
         }
     }
 }

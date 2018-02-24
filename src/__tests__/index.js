@@ -1,5 +1,5 @@
 const banderole = require('../index');
-
+const clock = require('../clock');
 const testData = require('./feature-flags.json');
 
 beforeEach(() => {
@@ -20,7 +20,7 @@ describe('A feature-flag can be defined by a boolean value', () => {
     });
 });
 
-test('A feature-flag which not exists should be disabled', () => {
+test('A feature-flag which not exists should be considered as disabled', () => {
     expect(banderole.isEnabled('I-don-t-exists')).toBeFalsy();
 });
 
@@ -52,3 +52,13 @@ describe('Rules can be added and evaluated at runtime', () => {
         expect(banderole.isEnabled('red-fonts')).toBeFalsy();
     });
 });
+
+describe('Feature-flag affirmative strategy rules are evaluated', () => {
+    test('If at least one rule return true, the feature-flag is enabled', () => {
+        expect(banderole.isEnabled('affirmative-strategy-with-one-enable-vote')).toBeTruthy();
+    });
+    test('If no rules return true, the feature-flag is disabled', () => {
+        expect(banderole.isEnabled('affirmative-strategy-with-no-enable-vote')).toBeFalsy();
+    });
+});
+
