@@ -18,10 +18,14 @@ const isEnabled = (feature) => {
   }
 
   if (typeof flag === 'object' && flag.hasOwnProperty('enabled')) {
-      return flag.enabled;
+      return rules.enabled(context, flag.enabled);
   }
 
   return false;
 };
+
+const rules = {
+    enabled: (context, value) => value,
+}
 
 module.exports = {boot, isEnabled};
