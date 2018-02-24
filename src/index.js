@@ -1,31 +1,35 @@
 
 let featureFlags = {
-  features: {},
+    features: {},
 };
 
-let context = {};
-
 const boot = (features) => {
-  featureFlags.features = {...features.features};
+    featureFlags.features = {...features.features};
 };
 
 const isEnabled = (feature) => {
+    const flag = featureFlags['features'][feature];
 
-  const flag = featureFlags['features'][feature];
+    if (typeof flag === 'boolean') {
+        return flag;
+    }
 
-  if (typeof flag === 'boolean') {
-    return flag;
-  }
+    if (typeof flag === 'object') {
+        const rule = Object.keys(flag)[0];
+        if (rules[rule]) {
+            return rules[rule](flag[rule]);
+        }
+    }
 
-  if (typeof flag === 'object' && flag.hasOwnProperty('enabled')) {
-      return rules.enabled(context, flag.enabled);
-  }
+    return false;
+};
 
-  return false;
+const addRule = (ruleName, rule) => {
+    rules[ruleName] = rule;
 };
 
 const rules = {
-    enabled: (context, value) => value,
-}
+    enabled: (value) => value,
+};
 
-module.exports = {boot, isEnabled};
+module.exports = {boot, isEnabled, addRule};

@@ -7,6 +7,15 @@
         },
         "slack-integration": {
             "enabled": false
+        },
+        "service-panel": {
+            "is-greater-than-10": [20]
+        },        
+        "red-fonts": {
+            "is-greater-than-10": [5]
+        },
+        "dark-theme": {
+            "between-hours": ["22", "06"]
         }
     }
 }
