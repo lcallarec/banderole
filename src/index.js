@@ -16,8 +16,13 @@ const isEnabled = (feature) => {
 
     if (typeof flag === 'object') {
         const rule = Object.keys(flag)[0];
+        const ruleFn = rules[rule];
         if (rules[rule]) {
-            return rules[rule](flag[rule]);
+            if (Array.isArray(flag[rule])) {
+                return ruleFn(...flag[rule]);
+            } else {
+                return ruleFn(flag[rule]);
+            }
         }
     }
 
