@@ -5,8 +5,8 @@ const testData = require('./feature-flags.json');
 beforeEach(() => {
     banderole.boot(testData);
 
-    banderole.addRule('is-greater-than-10', (data) => {
-        return data[0] > 10;
+    banderole.addRule('is-greater-than-10', (value) => {
+        return value > 10;
     });
 });
 
@@ -47,7 +47,7 @@ test('The internal feature-flags object should not be mutated is the original is
 });
 
 describe('Rules can be added and evaluated at runtime', () => {
-    test.only('Rules have arguments given by feature-flag rule value', () => {
+    test('Rules have arguments given by feature-flag rule value', () => {
         expect(banderole.isEnabled('service-panel')).toBeTruthy();
         expect(banderole.isEnabled('red-fonts')).toBeFalsy();
     });
