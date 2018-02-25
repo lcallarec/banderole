@@ -3,11 +3,9 @@ const testData = require('./feature-flags.json');
 
 beforeEach(() => {
     banderole.boot(testData);
-    banderole.addRule('is-greater-than-10', (value) => {
+    banderole.addCustomRule('is-greater-than-10', (value) => {
         return value > 10;
     });
-    banderole.addRule('authorize', () => true);
-    banderole.addRule('unauthorize', () => false);
 });
 
 describe('A feature-flag can be defined by a boolean value', () => {
@@ -22,16 +20,6 @@ describe('A feature-flag can be defined by a boolean value', () => {
 
 test('A feature-flag which not exists should be considered as disabled', () => {
     expect(banderole.isEnabled('I-don-t-exists')).toBeFalsy();
-});
-
-describe('A feature-flag can be defined by an object containing an enabled key', () => {
-    test('A feature-flag with an enabled key set to true should be enabled', () => {
-        expect(banderole.isEnabled('mailer')).toBeTruthy();
-    });
-
-    test('A feature-flag with an enabled key set to true should be enabled', () => {
-        expect(banderole.isEnabled('slack-integration')).toBeFalsy();
-    });
 });
 
 test('The internal feature-flags object should not be mutated is the original is mutated ', () => {
@@ -52,13 +40,3 @@ describe('Rules can be added and evaluated at runtime', () => {
         expect(banderole.isEnabled('red-fonts')).toBeFalsy();
     });
 });
-
-describe('Feature-flag affirmative strategy rules are evaluated', () => {
-    test('If at least one rule return true, the feature is enabled', () => {
-        expect(banderole.isEnabled('affirmative-strategy-with-one-enable-vote')).toBeTruthy();
-    });
-    test('If no rules return true, the feature is disabled', () => {
-        expect(banderole.isEnabled('affirmative-strategy-with-no-enable-vote')).toBeFalsy();
-    });
-});
-
