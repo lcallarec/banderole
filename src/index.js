@@ -35,12 +35,14 @@ const addRule = (ruleName, rule) => {
 
 const rules = {
     'enabled': (value) => value,
-    'strategy:affirmative': (rules) => {
-        if (Array.isArray(rules)) {
-            return rules.some((rule) => rules[rule]());
+    'strategy:affirmative': (featureRules) => {
+        for (let rule in featureRules) {
+            if (rules[rule](featureRules[rule]) === true) {
+                return true;
+            }
         }
         return false;
-    }
+    },
 };
 
 module.exports = {boot, isEnabled, addRule};

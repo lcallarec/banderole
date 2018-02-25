@@ -1,13 +1,13 @@
 const banderole = require('../index');
-const clock = require('../clock');
 const testData = require('./feature-flags.json');
 
 beforeEach(() => {
     banderole.boot(testData);
-
     banderole.addRule('is-greater-than-10', (value) => {
         return value > 10;
     });
+    banderole.addRule('authorize', () => true);
+    banderole.addRule('unauthorize', () => false);
 });
 
 describe('A feature-flag can be defined by a boolean value', () => {
@@ -54,10 +54,10 @@ describe('Rules can be added and evaluated at runtime', () => {
 });
 
 describe('Feature-flag affirmative strategy rules are evaluated', () => {
-    test('If at least one rule return true, the feature-flag is enabled', () => {
+    test('If at least one rule return true, the feature is enabled', () => {
         expect(banderole.isEnabled('affirmative-strategy-with-one-enable-vote')).toBeTruthy();
     });
-    test('If no rules return true, the feature-flag is disabled', () => {
+    test('If no rules return true, the feature is disabled', () => {
         expect(banderole.isEnabled('affirmative-strategy-with-no-enable-vote')).toBeFalsy();
     });
 });
