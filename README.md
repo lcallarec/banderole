@@ -46,12 +46,12 @@ Feature flags are described in a json configuration file, under a root `features
 
 - Return whether the specified feature is _enabled_ or _disabled_. 
 
-### `banderole.addRule(ruleName: string, Function)`
+### `banderole.addCustomRule(ruleName: string, Function)`
 
 - Register a new rule with a custom lambda. You can define your own behavior and your own decision logic. Let's say you want to open a `send-slack-message-on-error` feature only on some runtime environment : 
 ```js
 const currentEnv = process.env.NODE_ENV;
-banderole.addRule('env', (...envs) => envs.includes(currentEnv));
+banderole.addCustomRule('env', (...envs) => envs.includes(currentEnv));
 ```
 
 Add this configurations options, where `env` is the previously created rule, and `["DEV", "STAGING"]` passed as arguments to `env` lambda.
@@ -143,7 +143,7 @@ const flags = {
 banderole.boot(flags);
 
 const currentEnv = process.env.NODE_ENV;
-banderole.addRule('new-dazzle-feature', (...envs) => envs.includes(currentEnv));
+banderole.addCustomRule('new-dazzle-feature', (...envs) => envs.includes(currentEnv));
 
 banderole.isEnabled('new-dazzle-feature'); //Will return true if currentEnv is DEV or QA envs, else it will return false
 ```
@@ -160,7 +160,7 @@ const flags = {
 };
 
 banderole.boot(flags);
-banderole.addRule('between-hours', (startHour, endHour) => {
+banderole.addCustomRule('between-hours', (startHour, endHour) => {
     const now = new Date();
     const hour = now.getHours();
 
