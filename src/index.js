@@ -4,7 +4,7 @@ let featureFlags = {
     features: {},
 };
 
-const rules = { ...builtInRules};
+const rules = {...builtInRules};
 
 const boot = (features) => {
     featureFlags.features = {...features.features};

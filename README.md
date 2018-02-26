@@ -103,7 +103,7 @@ Take care that the toggle router only supports one rule per feature ; if you nee
 
 #### `strategy:affirmative`
 - take as argument an hash of rules which will be evaluated one by one. 
-With this strategy, a feature is considered as _enabled_ as soon as one rule returns `true`. In that case, follwing rules are not evaluated.
+With this strategy, a feature is considered as _enabled_ as soon as at least one rule returns `true`.
 ```js
 {
     "features": {
@@ -118,7 +118,27 @@ With this strategy, a feature is considered as _enabled_ as soon as one rule ret
 }
 ```
 
-In this exemple, the `shopping-cart-v2` feature will be _enabled_ if the application is running in `DEV` or `QA` environment or between `8AM and 10PM`.
+In this exemple, the `shopping-cart-v2` feature will be _enabled_ if the application is running in `DEV` or `QA` environment **OR** between `8AM and 10PM`.
+
+#### `strategy:unanimous`
+- Similar to `strategy:affirmative` rule. Take as argument an hash of rules which will be evaluated one by one. 
+But unlike `strategy:affirmative` rule, the feature will be considered as _enabled_ if **all** rules are evaluated to `true`.
+```js
+{
+    "features": {
+        "shopping-cart-v2": {
+            "strategy:unanimous": {
+                "env": ["DEV", "QA"],
+                "between-hours": ["08", "22"]
+            }
+        },
+
+    },
+}
+```
+
+In this exemple, the `shopping-cart-v2` feature will be _enabled_ if the application is running in `DEV` or `QA` environment **AND** between `8AM and 10PM`.
+
 
 ### Create your own custom rules 
 

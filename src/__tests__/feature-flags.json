@@ -30,6 +30,19 @@
                 "unauthorize": null,
                 "unauthorize": null
             }
+        },
+        "unanimous-strategy-with-all-enabled": {
+            "strategy:unanimous": {
+                "authorize": null,
+                "authorize": null
+            }
+        },
+        "unanimous-strategy-with-one-disabled": {
+            "strategy:unanimous": {
+                "authorize": null,
+                "unauthorize": null,
+                "authorize": null
+            }
         }
     }
 }
