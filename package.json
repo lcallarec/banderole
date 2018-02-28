@@ -1,6 +1,6 @@
 {
   "name": "banderole",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "description": "Banderole is a versatile Javascript feature-flag/toggle library designed with simplicity in mind",
   "main": "src/index.js",
   "repository": "git@github.com:lcallarec/banderole.git",
