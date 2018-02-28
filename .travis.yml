@@ -12,6 +12,7 @@ before_install:
 
 install:  
   - npm install -g codecov
+  - yarn install
 
 cache:
   yarn: true
