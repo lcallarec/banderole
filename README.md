@@ -46,16 +46,20 @@ Feature flags are described in a json configuration file, under a root `features
 
 ## API
 
-### `const isEnabled = banderole.isEnabled(featureName: string)`
+### `banderole.boot(flags: object, [context: object]): void`
+
+- Boot the router. Optionally pass a [context object](#context-object) as second argument.
+
+### `const isEnabled = banderole.isEnabled(featureName: string): boolean`
 
 - Return whether the specified feature is _enabled_ or _disabled_. 
 
-### `banderole.addCustomRule(ruleName: string, Function)`
+### `banderole.addCustomRule(ruleName: string, callback: Function<context, ...args>): void`
 
 - Register a new rule with a custom lambda. You can define your own behavior and your own decision logic. Let's say you want to open a `send-slack-message-on-error` feature only on some runtime environment : 
 ```js
 const currentEnv = process.env.NODE_ENV;
-banderole.addCustomRule('env', (...envs) => envs.includes(currentEnv));
+banderole.addCustomRule('env', (context, ...envs) => envs.includes(currentEnv));
 ```
 
 Add this configurations options, where `env` is the previously created rule, and `["DEV", "STAGING"]` passed as arguments to `env` lambda.
@@ -72,7 +76,7 @@ For more informations on writing your own custom rules : [Create your own custom
 
 ## Rules
 
-**bandeole** is a toggle router - aka core-engine - which deals with two ways of describing your feature toggles :
+**bandeole** is a toggle router which deals with two ways of describing your feature toggles :
 
 ## Flag definition
 
@@ -167,7 +171,7 @@ const flags = {
 banderole.boot(flags);
 
 const currentEnv = process.env.NODE_ENV;
-banderole.addCustomRule('new-dazzle-feature', (...envs) => envs.includes(currentEnv));
+banderole.addCustomRule('new-dazzle-feature', (context, ...envs) => envs.includes(currentEnv));
 
 banderole.isEnabled('new-dazzle-feature'); //Will return true if currentEnv is DEV or QA envs, else it will return false
 ```
@@ -184,7 +188,7 @@ const flags = {
 };
 
 banderole.boot(flags);
-banderole.addCustomRule('between-hours', (startHour, endHour) => {
+banderole.addCustomRule('between-hours', (context, startHour, endHour) => {
     const now = new Date();
     const hour = now.getHours();
 
@@ -198,6 +202,36 @@ banderole.isEnabled('light-theme'); // true
 //Between 22PM and 08AM
 banderole.isEnabled('light-theme'); // false
 ```
+
+## Context object
+
+ The context object is nothing more that an user-defined databag. As it is passed as first argument of all rules, your custom rules can read them. It has two goals :
+ - it helps keeping configuration things outside your custom rules logic
+ - it helps keeping the feature-flags system unaware of your application logic
+
+A common use case would be to save the current runtime-environment inside context object and read that value fom a custom-rule : 
+
+```js
+    const context = {
+        env: process.env.RUNTIME_ENVIRONMENT || process.env.NODE_ENV, 
+    };
+
+    const flags = {
+        features: {
+            "debbug-logger": {
+                "runtime-env": ["DEV"],
+            }
+        }
+    };
+
+    banderole.boot(flags, context);
+    banderole.addCustomRule('runtime-env', (context, env) => {
+        return context.env === env;
+    });
+```
+
+You can pass anykind of data inside the context object, it's yours, feel free to also add some useful functions !
+
 
 ## Requesting a non-existing flag
 

@@ -1,18 +1,18 @@
 const rules = {
-    'enabled': (value) => {
+    'enabled': (context, value) => {
         return value;
     },
-    'strategy:affirmative': (rules, allRouterRules) => {
+    'strategy:affirmative': (context, rules) => {
         for (let rule in rules) {
-            if (allRouterRules[rule](rules[rule]) === true) {
+            if (context.rules[rule](rules[rule]) === true) {
                 return true;
             }
         }
         return false;
     },
-    'strategy:unanimous': (rules, allRouterRules) => {
+    'strategy:unanimous': (context, rules) => {
         for (let rule in rules) {
-            if (allRouterRules[rule](rules[rule]) === false) {
+            if (context.rules[rule](rules[rule]) === false) {
                 return false;
             }
         }

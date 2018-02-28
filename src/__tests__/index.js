@@ -2,9 +2,16 @@ const banderole = require('../index');
 const testData = require('./feature-flags.json');
 
 beforeEach(() => {
-    banderole.boot(testData);
-    banderole.addCustomRule('is-greater-than-10', (value) => {
+    const context = {
+        env: 'DEV',
+    };
+
+    banderole.boot(testData, context);
+    banderole.addCustomRule('is-greater-than-10', (context, value) => {
         return value > 10;
+    });
+    banderole.addCustomRule('runtime-env', (context, env) => {
+        return context.env === env;
     });
 });
 
@@ -38,5 +45,11 @@ describe('Rules can be added and evaluated at runtime', () => {
     test('Rules have arguments given by feature-flag rule value', () => {
         expect(banderole.isEnabled('service-panel')).toBeTruthy();
         expect(banderole.isEnabled('red-fonts')).toBeFalsy();
+    });
+});
+
+describe('A context can be added at boot time', () => {
+    test('A context is readable from the rule', () => {
+        expect(banderole.isEnabled('debug-logger')).toBeTruthy();
     });
 });

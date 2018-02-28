@@ -1,12 +1,15 @@
 const builtInRules = require('./built-in-rules');
 
+let context = '{}';
+
 let featureFlags = {
     features: {},
 };
 
 const rules = {...builtInRules};
 
-const boot = (features) => {
+const boot = (features, bootContext) => {
+    context = {...bootContext};
     featureFlags.features = {...features.features};
 };
 
@@ -23,9 +26,9 @@ const isEnabled = (feature) => {
 
         if (rules[rule]) {
             if (Array.isArray(flag[rule])) {
-                return ruleFn(...flag[rule], rules);
+                return ruleFn(context, ...flag[rule]);
             } else {
-                return ruleFn(flag[rule], rules);
+                return ruleFn(context, flag[rule]);
             }
         }
     }
@@ -33,8 +36,9 @@ const isEnabled = (feature) => {
     return false;
 };
 
-const addCustomRule = (customrRuleName, customRule) => {
-    rules[customrRuleName] = customRule;
+const addCustomRule = (customRuleName, customRule) => {
+    rules[customRuleName] = customRule;
+    context.rules = rules;
 };
 
 module.exports = {boot, isEnabled, addCustomRule};

@@ -43,6 +43,9 @@
                 "unauthorize": null,
                 "authorize": null
             }
+        },
+        "debug-logger": {
+            "runtime-env": ["DEV"]
         }
     }
 }
