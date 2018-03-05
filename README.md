@@ -6,7 +6,17 @@
 
 > **Banderole** is a versatile Javascript feature-[flags / toggle / bits / flippers] library designed with simplicity in mind. There's no black magic inside !
 
+## Install
+
+```bash
+npm install banderole 
+or
+yarn add banderole
+```
+
 ## Usage
+
+All feature flags are described in a json configuration file, under a root `features` key.
 
 ### Configure & boot banderole
 
@@ -42,8 +52,6 @@ const featureFlags = {
 banderole.boot(featureFlags);
 ```
 
-Feature flags are described in a json configuration file, under a root `features` key.
-
 ## API
 
 ### `banderole.boot(flags: object, [context: object]): void`
@@ -54,15 +62,15 @@ Feature flags are described in a json configuration file, under a root `features
 
 - Return whether the specified feature is _enabled_ or _disabled_. 
 
-### `banderole.addCustomRule(ruleName: string, callback: Function<context, ...args>): void`
+### `banderole.addCustomRule(ruleName: string, lambda: Function<context, ...args>): void`
 
-- Register a new rule with a custom lambda. You can define your own behavior and your own decision logic. Let's say you want to open a `send-slack-message-on-error` feature only on some runtime environment : 
+- Register a new rule with a custom lambda to fit your own decision logic. Let's say you want to open a `send-slack-message-on-error` feature only on some runtime configuration : 
 ```js
 const currentEnv = process.env.NODE_ENV;
 banderole.addCustomRule('env', (context, ...envs) => envs.includes(currentEnv));
 ```
 
-Add this configurations options, where `env` is the previously created rule, and `["DEV", "STAGING"]` passed as arguments to `env` lambda.
+In feature flag configuration, `env` refer to the lambda above ; if the `currentEnv` is `"DEV"` or `"STAGING"`, the flag will be enabled.
 ```js
 "features": {
     "send-slack-message-on-error": {
@@ -76,13 +84,13 @@ For more informations on writing your own custom rules : [Create your own custom
 
 ## Rules
 
-**bandeole** is a toggle router which deals with two ways of describing your feature toggles :
+**bandeole**, the toggle router, is responsible of providing the state of a feature. There's two ways to describe your feature configuration.
 
 ## Flag definition
 
 ### Short expression syntax
 
-Defined in feature configuration by using `<feature>:<flag>` pattern, as in `"switchboard": true` is the sample below. The flag value meant to be a boolean value, `true|false`. It is generally used as release toggles, mainly used for _separating a feature release from code deployment_.
+`<feature>:<flag>` pattern, as in `"switchboard": true` is the sample below. The flag value meant to be a boolean value, `true|false`. It's static nature make it useful as a release toggles for _separating the feature release from code deployment_.
 
 ```js
 const flags = {
@@ -111,7 +119,7 @@ Take care that the toggle router only supports one rule per feature ; if you nee
 
 #### `strategy:affirmative`
 - take as argument an hash of rules which will be evaluated one by one. 
-With this strategy, a feature is considered as _enabled_ as soon as at least one rule returns `true`.
+With this strategy, a feature is considered as _enabled_ as soon as one rule decide the feature is `enabled`.
 ```js
 {
     "features": {
@@ -129,8 +137,7 @@ With this strategy, a feature is considered as _enabled_ as soon as at least one
 In this exemple, the `shopping-cart-v2` feature will be _enabled_ if the application is running in `DEV` or `QA` environment **OR** between `8AM and 10PM`.
 
 #### `strategy:unanimous`
-- Similar to `strategy:affirmative` rule. Take as argument an hash of rules which will be evaluated one by one. 
-But unlike `strategy:affirmative` rule, the feature will be considered as _enabled_ if **all** rules are evaluated to `true`.
+- Arguments similar to `strategy:affirmative`. But unlike `strategy:affirmative`, the feature will be considered as _enabled_ if **all** rules decide that the feature should be `enabled`.
 ```js
 {
     "features": {
@@ -205,9 +212,9 @@ banderole.isEnabled('light-theme'); // false
 
 ## Context object
 
- The context object is nothing more that an user-defined databag. As it is passed as first argument of all rules, your custom rules can read them. It has two goals :
- - it helps keeping configuration things outside your custom rules logic
- - it helps keeping the feature-flags system unaware of your application logic
+ The context object is nothing more that an user-defined databag. It is acessible to all custom rules to :
+ - help keeping configuration things outside your custom rules logic
+ - help keeping the feature-flags system unaware of your application logic
 
 A common use case would be to save the current runtime-environment inside context object and read that value fom a custom-rule : 
 
@@ -230,8 +237,7 @@ A common use case would be to save the current runtime-environment inside contex
     });
 ```
 
-You can pass anykind of data inside the context object, it's yours, feel free to also add some useful functions !
-
+You can pass anykind of data inside the context object, it's yours, feel free to also add some useful functions too !
 
 ## Requesting a non-existing flag
 
