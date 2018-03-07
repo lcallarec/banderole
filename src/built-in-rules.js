@@ -1,3 +1,5 @@
+// @flow
+
 const rules = {
     'enabled': (context, value) => {
         return value;

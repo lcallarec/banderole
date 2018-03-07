@@ -1,3 +1,5 @@
+// @flow
+
 const builtInRules = require('./built-in-rules');
 
 let context = '{}';

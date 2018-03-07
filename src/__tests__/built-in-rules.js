@@ -1,3 +1,5 @@
+// @flow
+
 const banderole = require('../index');
 const testData = require('./feature-flags.json');
 
@@ -5,6 +7,9 @@ beforeEach(() => {
     banderole.boot(testData);
     banderole.addCustomRule('authorize', () => true);
     banderole.addCustomRule('unauthorize', () => false);
+    banderole.addCustomRule('reauthorize', () => true);
+    banderole.addCustomRule('reunauthorize', () => false);
+    banderole.addCustomRule('reunauthorizeagain', () => false);
 });
 
 describe('A feature-flag can be defined by an object containing an enabled key', () => {

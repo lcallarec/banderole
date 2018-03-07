@@ -1,3 +1,5 @@
+// @flow
+
 const banderole = require('../index');
 const testData = require('./feature-flags.json');
 

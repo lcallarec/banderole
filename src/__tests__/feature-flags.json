@@ -21,27 +21,27 @@
             "strategy:affirmative": {
                 "unauthorize": null,
                 "authorize": null,
-                "unauthorize": null
+                "reunauthorize": null
             }
         },
         "affirmative-strategy-with-no-enable-vote": {
             "strategy:affirmative": {
                 "unauthorize": null,
-                "unauthorize": null,
-                "unauthorize": null
+                "reunauthorize": null,
+                "reunauthorizeagain": null
             }
         },
         "unanimous-strategy-with-all-enabled": {
             "strategy:unanimous": {
                 "authorize": null,
-                "authorize": null
+                "reauthorize": null
             }
         },
         "unanimous-strategy-with-one-disabled": {
             "strategy:unanimous": {
                 "authorize": null,
                 "unauthorize": null,
-                "authorize": null
+                "reauthorize": null
             }
         },
         "debug-logger": {
