@@ -1,6 +1,6 @@
 {
   "name": "banderole",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Banderole is a versatile Javascript feature-flag/toggle library designed with simplicity in mind",
   "main": "lib/index.js",
   "repository": "git@github.com:lcallarec/banderole.git",
@@ -12,6 +12,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
     "eslint": "^4.18.1",
     "eslint-config-google": "^0.9.1",
     "eslint-config-standard": "^11.0.0",
@@ -20,6 +21,7 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
+    "flow-bin": "^0.66.0",
     "jest": "^22.4.2"
   },
   "scripts": {
@@ -27,6 +29,7 @@
     "jest": "node ./node_modules/jest-cli/bin/jest.js src/",
     "lib-jest": "node ./node_modules/jest-cli/bin/jest.js lib/",
     "babel": "./node_modules/babel-cli/bin/babel.js",
-    "build": "./node_modules/babel-cli/bin/babel.js src --out-dir lib --copy-files"
+    "build": "./node_modules/babel-cli/bin/babel.js src --out-dir lib --copy-files",
+    "flow": "./node_modules/.bin/flow"
   }
 }
