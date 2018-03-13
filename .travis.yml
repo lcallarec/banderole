@@ -21,5 +21,6 @@ cache:
     - "node_modules"
 
 script:
-- yarn jest --coverage
+- yarn build
+- yarn lib-jest --coverage
 - codecov
