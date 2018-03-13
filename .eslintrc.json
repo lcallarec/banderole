@@ -1,12 +1,15 @@
 {
     "extends": "google",
+    "parser": "babel-eslint",
     "plugins": [
-        "jest"
+        "jest",
+        "flowtype"
     ],
     "env": {
         "browser": true,
         "node": true,
-        "jest": true
+        "jest": true,
+        "es6": true
 
     },
     "parserOptions": {

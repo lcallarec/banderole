@@ -5,14 +5,20 @@ const testData = require('./feature-flags.json');
 
 beforeEach(() => {
     const context = {
+        rules: {},
         env: 'DEV',
     };
 
     banderole.boot(testData, context);
-    banderole.addCustomRule('is-greater-than-10', (context, value) => {
-        return value > 10;
+    banderole.addCustomRule('is-greater-than-10', (context, value): boolean => {
+        if (!isNaN(+value) && isFinite(value)) {
+            return ((value: any): number) > 10;
+        }
+
+        return false;
     });
-    banderole.addCustomRule('runtime-env', (context, env) => {
+
+    banderole.addCustomRule('runtime-env', (context, env): boolean => {
         return context.env === env;
     });
 });

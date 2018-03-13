@@ -1,28 +1,31 @@
 // @flow
+import type {Configuration, Context, Rules, Rule} from './types';
 
-const builtInRules = require('./built-in-rules');
+import builtInRules from './built-in-rules';
 
-let context = '{}';
+let context: Context = {
+    rules: {},
+};
 
-let featureFlags = {
+let featureFlags: Configuration = {
     features: {},
 };
 
-const rules = {...builtInRules};
+const rules: Rules = {...builtInRules};
 
-const boot = (features, bootContext) => {
+const boot = (features: Configuration, bootContext: Context = {rules: {}}) => {
     context = {...bootContext};
     featureFlags.features = {...features.features};
 };
 
-const isEnabled = (feature) => {
+const isEnabled = (feature: string) => {
     const flag = featureFlags['features'][feature];
 
     if (typeof flag === 'boolean') {
         return flag;
     }
 
-    if (typeof flag === 'object') {
+    if (typeof flag === 'object' && flag != null) {
         const rule = Object.keys(flag)[0];
         const ruleFn = rules[rule];
 
@@ -38,7 +41,7 @@ const isEnabled = (feature) => {
     return false;
 };
 
-const addCustomRule = (customRuleName, customRule) => {
+const addCustomRule = (customRuleName: string, customRule: Rule) => {
     rules[customRuleName] = customRule;
     context.rules = rules;
 };
