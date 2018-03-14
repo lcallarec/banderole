@@ -1,7 +1,7 @@
 // @flow
 
 export type Configuration = {
-    features: Feature
+    features: Features
 }
 
 export type Context = {
@@ -9,7 +9,7 @@ export type Context = {
     [name: string]: mixed
 }
 
-export type Feature = {
+export type Features = {
     [name:string]: mixed
 }
 
@@ -18,3 +18,12 @@ export type Rule = (context: Context, *) => boolean
 export type Rules = {
     [name: string]: Rule
 }
+
+type RouterIsEnabledFunc = (context: Context, rules: Rules, feature: string) => boolean;
+
+export type LocalRouter = {
+    type: 'LOCAL',
+    isEnabled: RouterIsEnabledFunc,
+}
+
+export type Router = LocalRouter;

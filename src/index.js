@@ -1,44 +1,24 @@
 // @flow
-import type {Configuration, Context, Rules, Rule} from './types';
+import type {Configuration, Context, Rules, Rule, Router} from './types';
 
 import builtInRules from './built-in-rules';
+import {createLocalRouter} from './router';
 
 let context: Context = {
     rules: {},
 };
 
-let featureFlags: Configuration = {
-    features: {},
-};
+let router: Router;
 
 const rules: Rules = {...builtInRules};
 
-const boot = (features: Configuration, bootContext: Context = {rules: {}}) => {
+const boot = (configuration: Configuration, bootContext: Context = {rules: {}}) => {
     context = {...bootContext};
-    featureFlags.features = {...features.features};
+    router = createLocalRouter(configuration);
 };
 
 const isEnabled = (feature: string) => {
-    const flag = featureFlags['features'][feature];
-
-    if (typeof flag === 'boolean') {
-        return flag;
-    }
-
-    if (typeof flag === 'object' && flag != null) {
-        const rule = Object.keys(flag)[0];
-        const ruleFn = rules[rule];
-
-        if (rules[rule]) {
-            if (Array.isArray(flag[rule])) {
-                return ruleFn(context, ...flag[rule]);
-            } else {
-                return ruleFn(context, flag[rule]);
-            }
-        }
-    }
-
-    return false;
+    return router.isEnabled(context, rules, feature);
 };
 
 const addCustomRule = (customRuleName: string, customRule: Rule) => {

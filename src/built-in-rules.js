@@ -1,11 +1,11 @@
 // @flow
-import type {Context, Feature, Rule} from './types';
+import type {Context, Features, Rule} from './types';
 
 const rules = {
     'enabled': (context: Context, value: boolean) => {
         return value;
     },
-    'strategy:affirmative': (context: Context, rules: Feature) => {
+    'strategy:affirmative': (context: Context, rules: Features) => {
         for (let rule: string in rules) {
             if (context.rules[rule]) {
                 const fn: Rule = context.rules[rule];
@@ -17,7 +17,7 @@ const rules = {
         }
         return false;
     },
-    'strategy:unanimous': (context: Context, rules: Feature) => {
+    'strategy:unanimous': (context: Context, rules: Features) => {
         for (let rule: string in rules) {
             if (context.rules[rule]) {
                 const fn: Rule = context.rules[rule];
