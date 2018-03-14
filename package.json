@@ -1,6 +1,6 @@
 {
   "name": "banderole",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "Banderole is a versatile Javascript feature-flag/toggle library designed with simplicity in mind",
   "main": "lib/index.js",
   "repository": "git@github.com:lcallarec/banderole.git",
@@ -24,6 +24,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "flow-bin": "^0.66.0",
+    "flow-copy-source": "^1.3.0",
     "jest": "^22.4.2",
     "rimraf": "^2.6.2"
   },
@@ -33,7 +34,9 @@
     "lib-jest": "node ./node_modules/jest-cli/bin/jest.js lib/",
     "babel": "./node_modules/babel-cli/bin/babel.js",
     "clean": "node ./node_modules/.bin/rimraf lib",
-    "build": "yarn clean && node ./node_modules/babel-cli/bin/babel.js src --out-dir lib --copy-files",
+    "build": "yarn clean;yarn build:babel;yarn build:flow",
+    "build:babel": "node ./node_modules/babel-cli/bin/babel.js src --out-dir lib --copy-files",
+    "build:flow": "node ./node_modules/.bin/flow-copy-source -v src lib",
     "flow": "./node_modules/.bin/flow"
   }
 }
