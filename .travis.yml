@@ -22,5 +22,5 @@ cache:
 
 script:
 - yarn build
-- yarn lib-jest --coverage
+- yarn lib-test --coverage
 - codecov

@@ -30,8 +30,8 @@
   },
   "scripts": {
     "lint": "node ./node_modules/eslint/bin/eslint.js src/",
-    "jest": "node ./node_modules/jest-cli/bin/jest.js src/",
-    "lib-jest": "node ./node_modules/jest-cli/bin/jest.js lib/",
+    "test": "node ./node_modules/jest-cli/bin/jest.js src/",
+    "lib-test": "node ./node_modules/jest-cli/bin/jest.js lib/",
     "babel": "./node_modules/babel-cli/bin/babel.js",
     "clean": "node ./node_modules/.bin/rimraf lib",
     "build": "yarn clean;yarn build:babel;yarn build:flow",
